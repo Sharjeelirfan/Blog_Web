@@ -92,7 +92,7 @@ export default function ReaderNavbar( {username}) {
         </div>
 
         <div className="navbar-end">
-          <h1 className="mr-5 text-2xl font-bold">Username : {username}</h1>
+          {/* <h1 className="mr-5 text-2xl font-bold">Username : {username}</h1> */}
           <a className="btn" onClick={signout}>
             LogOut
           </a>

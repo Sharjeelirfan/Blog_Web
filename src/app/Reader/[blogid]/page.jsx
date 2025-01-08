@@ -1,22 +1,20 @@
 "use client";
-import { useParams } from 'next/navigation'
-import {React , useEffect, useState}  from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams } from "next/navigation";
+import { React, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
-import { db, auth   } from "@/firebase/firebaseconfig";
-import { onAuthStateChanged } from 'firebase/auth'
-import ReaderNavbar from '@/Components/ReaderNavbar/page';
+import { db, auth } from "@/firebase/firebaseconfig";
+import { onAuthStateChanged } from "firebase/auth";
+import ReaderNavbar from "@/Components/ReaderNavbar/page";
 
-export default function blogDetail() {
-    const {blogid} = useParams()
-    const [loading , setLoading] = useState()
-    const [blog , setBlog] = useState()
-    // const [user , setUser] = useState()
-    const [nameOfUser ,setNameOfUser] = useState()
-    let route = useRouter()
+export default function BlogDetail() {
+  const { blogid } = useParams();
+  const [loading, setLoading] = useState();
+  const [blog, setBlog] = useState();
+  // const [user , setUser] = useState()
+  const [nameOfUser, setNameOfUser] = useState();
+  let route = useRouter();
 
-
-    
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
@@ -53,7 +51,7 @@ export default function blogDetail() {
   }, [route]);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const fetchBlog = async () => {
       if (blogid) {
         const blogRef = doc(db, "blogs", blogid);
@@ -61,30 +59,29 @@ export default function blogDetail() {
           const blogSnapshot = await getDoc(blogRef);
           if (blogSnapshot.exists()) {
             setBlog(blogSnapshot.data());
-            
+          }
+        } catch (error) {
+          console.error("Error fetching blog:", error);
+        } finally {
+          setLoading(false);
         }
-    } catch (error) {
-        console.error("Error fetching blog:", error);
-    } finally {
+      } else {
+        console.log("No ID found in parameters");
         setLoading(false);
-    }
-} else {
-    console.log("No ID found in parameters");
-    setLoading(false);
-}
-};
-fetchBlog();
-}, [blogid]);
+      }
+    };
+    fetchBlog();
+  }, [blogid]);
 
-// console.log(blog);
+  // console.log(blog);
   if (loading) {
-   return (
-     <div className="flex items-center justify-center min-h-screen">
-       <span className="loading loading-infinity loading-lg"></span>
-     </div>
-   )}
-     if (!blog) return <h1>No blog found.</h1>; 
-
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+  if (!blog) return <h1>No blog found.</h1>;
 
   return (
     <>

@@ -16,7 +16,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const HandleLogin = () => {
     setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
@@ -35,9 +35,9 @@ export default function Login() {
             route.push("/Writer");
           } else if (userRole === "Reader") {
             route.push("/Reader");
-          } else if (userRole === "Admin"){
-            route.push("./Admin")
-          }else {
+          } else if (userRole === "Admin") {
+            route.push("./Admin");
+          } else {
             // Handle unknown roles or errors
             Swal.fire({
               title: "Error!",
@@ -120,7 +120,7 @@ export default function Login() {
           className={`btn btn-active btn-primary ${
             loading ? "btn-disabled" : ""
           }`}
-          onClick={handleLogin}
+          onClick={HandleLogin}
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}

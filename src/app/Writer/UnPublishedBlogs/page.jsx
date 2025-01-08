@@ -17,7 +17,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-export default function unPublished() {
+export default function UnPublished() {
   const route = useRouter();
   const [nameOfUser, setnameOfUser] = useState();
   const [blogs, setBlogs] = useState();
@@ -105,29 +105,29 @@ export default function unPublished() {
     );
   }
 
-const Publish = async (blogPub) => {
-  if (!blogPub || !blogPub.id) {
-    console.error("Invalid blogPub object:", blogPub);
-    return; // Exit the function if blogPub is not valid
-  }
+  const Publish = async (blogPub) => {
+    if (!blogPub || !blogPub.id) {
+      console.error("Invalid blogPub object:", blogPub);
+      return; // Exit the function if blogPub is not valid
+    }
 
-  try {
-    const blogRef = doc(db, "blogs", blogPub.id);
-    await updateDoc(blogRef, { Hold: false });
+    try {
+      const blogRef = doc(db, "blogs", blogPub.id);
+      await updateDoc(blogRef, { Hold: false });
 
-    // Optimistically update the UI by removing the blog
-    setBlogs((prevBlogs) =>
-      prevBlogs.filter((blog) => blog.blogid !== blogPub.id)
-    );
-  } catch (e) {
-    console.error("Error updating document:", e);
-    Swal.fire({
-      title: "Error",
-      text: e.message, // Use e.message for a cleaner error message
-      icon: "error",
-    });
-  }
-};
+      // Optimistically update the UI by removing the blog
+      setBlogs((prevBlogs) =>
+        prevBlogs.filter((blog) => blog.blogid !== blogPub.id)
+      );
+    } catch (e) {
+      console.error("Error updating document:", e);
+      Swal.fire({
+        title: "Error",
+        text: e.message, // Use e.message for a cleaner error message
+        icon: "error",
+      });
+    }
+  };
 
   return (
     // <div>unPublished</div>
